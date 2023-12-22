@@ -1,5 +1,1 @@
-# cs3110-FinalProject
-Mohammad Labadi (maa366),
-Youssef Ahmed (yta3),
-Nedim Abdelaziz (na377), 
-Bassem Qassem (baq7)
+This wordle Game was designed and built over a span of 3 months by myself, Youssef Ahmed (yta3@cornell.edu), Nedim Abdelaziz (na377), and Bassem Qassem (baq7@cornell.edu). It was imported from our repo on Cornell Github.
