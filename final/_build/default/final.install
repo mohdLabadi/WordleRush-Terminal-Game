@@ -1,0 +1,20 @@
+lib: [
+  "_build/install/default/lib/final/META"
+  "_build/install/default/lib/final/dune-package"
+  "_build/install/default/lib/final/opam"
+  "_build/install/default/lib/final/wordle.a"
+  "_build/install/default/lib/final/wordle.cma"
+  "_build/install/default/lib/final/wordle.cmi"
+  "_build/install/default/lib/final/wordle.cmt"
+  "_build/install/default/lib/final/wordle.cmti"
+  "_build/install/default/lib/final/wordle.cmx"
+  "_build/install/default/lib/final/wordle.cmxa"
+  "_build/install/default/lib/final/wordle.ml"
+  "_build/install/default/lib/final/wordle.mli"
+]
+libexec: [
+  "_build/install/default/lib/final/wordle.cmxs"
+]
+doc: [
+  "_build/install/default/doc/final/README.md"
+]

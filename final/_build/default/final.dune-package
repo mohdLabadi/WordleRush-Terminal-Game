@@ -1,0 +1,33 @@
+(lang dune 3.12)
+(name final)
+(sections (lib .) (libexec .) (doc ../../doc/final))
+(files
+ (lib
+  (META
+   dune-package
+   opam
+   wordle.a
+   wordle.cma
+   wordle.cmi
+   wordle.cmt
+   wordle.cmti
+   wordle.cmx
+   wordle.cmxa
+   wordle.ml
+   wordle.mli))
+ (libexec (wordle.cmxs))
+ (doc (README.md)))
+(library
+ (name final)
+ (kind normal)
+ (archives (byte wordle.cma) (native wordle.cmxa))
+ (plugins (byte wordle.cma) (native wordle.cmxs))
+ (native_archives wordle.a)
+ (requires ANSITerminal lwt lwt_ssl)
+ (main_module_name Wordle)
+ (modes byte native)
+ (modules
+  (singleton
+   (obj_name wordle)
+   (visibility public)
+   (source (path Wordle) (intf (path wordle.mli)) (impl (path wordle.ml))))))

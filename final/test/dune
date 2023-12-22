@@ -1,0 +1,3 @@
+(executable
+ (name final)
+ (libraries ounit2 wordle))

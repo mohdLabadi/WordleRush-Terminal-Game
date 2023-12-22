@@ -1,0 +1,41 @@
+---
+# Members of our group.
+group:
+  - name: Mohammad Labadi
+    netid: maa366
+  - name: Bassem Qassem ElKhateeb
+    netid: baq7
+  - name: Youssef Ahmed
+    netid: yta3
+  - name: Nedim Abdelaziz
+    netid: na377
+# Our PM.
+pm:
+  name: Ananya Seelam
+  netid: as2759
+publish: true
+# Title
+title: "More than a wordle game"
+# OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
+git-repo: "https://github.coecis.cornell.edu/maa366/cs3110-FinalProject"
+# If you have no demo screencast, replace the url string with an empty string ""
+demo-video-url: ""
+# Write a short, attention-grabbing description of your project.
+desc: >
+  Our project is a multi-mode wordle in the terminal where a user interface 
+  would be utilized to navigate between the gamemode selections through interactive
+  features such as, but not limited to, main menu screens and pop-up messages. 
+  From the previous plan of working on simply a selection of arbitrary games, 
+  a multi-option wordle allow us to utilize additional features that would 
+  immerse the user in a more effective experience when interacting with our system 
+  and navigating through the gamemode selection process. Our wordle comes in 
+  different modes like timed mode where the user have to guess the word in a 
+  certian amount of time (30s 60s or 120s) or untimed. You can also guess words
+  of different lengths. You can also choose the difficulty that you want to play
+  in and based on that the number of attempts you get per word. During the game, 
+  you can also get hints about the words you are trying to guess or rather giveup
+  and quit the game. The game also keeps your score to know if you are getting better
+  or not across all modes. 
+  
+
+  

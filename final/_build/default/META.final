@@ -1,0 +1,6 @@
+description = ""
+requires = "ANSITerminal lwt lwt_ssl"
+archive(byte) = "wordle.cma"
+archive(native) = "wordle.cmxa"
+plugin(byte) = "wordle.cma"
+plugin(native) = "wordle.cmxs"

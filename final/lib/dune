@@ -1,0 +1,4 @@
+(library
+ (name wordle)
+ (public_name final)
+ (libraries ANSITerminal lwt lwt_ssl))
