@@ -22,6 +22,7 @@ WordleRush is an innovative, terminal-based version of the popular Wordle game, 
   Keep an eye on your progress with a scoring system that tracks your performance across all modes, helping you to see how you're improving over time.
 
 *User Interface*
+
 WordleRush utilizes an intuitive user interface that includes:
   - Main Menu Screens: Easily navigate through the game mode selections with a user-friendly main menu.
   - Pop-up Messages: Stay informed and guided with helpful pop-up messages throughout the game.
