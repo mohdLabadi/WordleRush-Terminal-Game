@@ -2,6 +2,8 @@ This wordle Game was designed and built over a span of 3 months by myself, Youss
 
 WORDLE RUSH
 
+<img width="1642" height="690" alt="image" src="https://github.com/user-attachments/assets/a8995e48-a29a-459a-b0c6-9592c2e4de45" />
+
 *Introduction*
 
 WordleRush is an innovative, terminal-based version of the popular Wordle game, enhanced with a multitude of game modes and interactive features. This project transforms the traditional Wordle experience into a dynamic and engaging activity, suitable for all types of players.
