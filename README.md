@@ -1,4 +1,4 @@
-This wordle Game was designed and built over a span of 3 months by myself, Youssef Ahmed (yta3@cornell.edu), Nedim Abdelaziz (na377), and Bassem Qassem (baq7@cornell.edu). It was imported from our repo on Cornell Github.
+This wordle Game was designed and built over a span of 3 months by myself, Youssef Ahmed (yta3@cornell.edu), Nedim Abdelaziz (na377), and Bassem Qassem (baq7@cornell.edu). It was imported from a shared repo we made on Cornell Enterprise Github.
 
 WORDLE RUSH
 
@@ -6,7 +6,7 @@ WORDLE RUSH
 
 *Introduction*
 
-WordleRush is an innovative, terminal-based version of the popular Wordle game, enhanced with a multitude of game modes and interactive features. This project transforms the traditional Wordle experience into a dynamic and engaging activity, suitable for all types of players.
+WordleRush is a terminal-based version of the popular Wordle game, enhanced with a multitude interactive features and game modes. In this project, we aimed at transoforming the traditional Wordle experience into a more dynamic and engaging activity, suitable for all types of players from the unexperienced (or maybe unlucky) to the most experienced and those looking for a challenge.
 
 *Features*
 - Multi-Mode Gameplay
@@ -29,4 +29,5 @@ WordleRush utilizes an intuitive user interface that includes:
   - Main Menu Screens: Easily navigate through the game mode selections with a user-friendly main menu.
   - Pop-up Messages: Stay informed and guided with helpful pop-up messages throughout the game.
 
-Whether you're looking for a quick challenge or a leisurely puzzle, WordleRush has something for everyone. Immerse yourself in the world of words and put your vocabulary to the test with our multi-mode Wordle game.
+Whether you're looking for a quick challenge or a leisurely puzzle, WordleRush has something for you. 
+Please try our humble game and put your vocabulary to the test with Wordle Rush.
