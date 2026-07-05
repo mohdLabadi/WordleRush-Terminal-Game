@@ -9,7 +9,7 @@ code:
 	! dune build --watch
 
 wordle:
-	OCAMLRUNPARAM=b dune utop lib -- start
+	OCAMLRUNPARAM=b dune exec bin/main.exe
 
 bisect: bisect-clean
 	-dune exec --instrument-with bisect_ppx --force test/final.exe
@@ -27,7 +27,7 @@ zip:
 	zip -r wordle.zip . -x@exclude.lst
 	
 test:
-	OCAMLRUNPARAM=b dune exec test/final.exe
+	OCAMLRUNPARAM=b dune exec test/test_wordle.exe
 
 doc:
 	dune build @doc

@@ -1,10 +1,38 @@
-# Steps to run our wordle game:
+# Installing and running WordleRush
 
-1. Make sure you are in the /final directory
-2. Run [opam install ANSITerminal] to install the ANSITerminal module
-3. Run [opam install lwt_ssl]
-4. Run [opam install lwt]
-5. Run [dune build] to build the project
-6. Save all files after you ran [dune build]
-7. Run [make wordle] to start the game
-8. Follow the instructions given in the game
+## Prerequisites
+
+- [opam](https://opam.ocaml.org/) and an OCaml switch (4.14+)
+
+## Setup
+
+From the project root, install the dependencies declared in `dune-project`:
+
+```bash
+opam install . --deps-only --with-test
+```
+
+This pulls in `ANSITerminal`, `lwt`, `lwt_ssl` (and `ounit2` for the tests).
+
+## Build
+
+```bash
+dune build
+```
+
+## Play
+
+```bash
+make wordle
+# or, equivalently:
+dune exec bin/main.exe
+```
+
+Then follow the on-screen menu to pick a mode (timed/untimed), word length, and
+difficulty.
+
+## Run the tests
+
+```bash
+make test
+```

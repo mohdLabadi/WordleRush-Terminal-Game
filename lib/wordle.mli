@@ -9,7 +9,6 @@ module WordleGame : sig
     | Classic
     | Four
     | Six
-    | Blank
 
   (** [difficulty_level] is the difficulty of the Wordle game that is used to
       map the number of attempts the user gets based on the difficulty.*)
@@ -46,9 +45,12 @@ module WordleGame : sig
       attempts left * 100 and his total score. Score is a mutable int as it
       changes Cumlative_score resets to 0 after each game.*)
 
-  val cat_hash : (int, game_category) Hashtbl.t
-  (** [cat_hash] is a hash table of 1 element containing the game category
-      chosen.*)
+  val current_category : game_category option ref
+  (** [current_category] holds the word length mode chosen by the player. *)
+
+  val get_category : unit -> game_category
+  (** [get_category ()] returns the selected category or raises if the player
+      has not chosen one yet. *)
 
   val lwt_read_line : unit -> string Lwt.t
   (** [lwt_read_line] reads one complete line from ic and returns it without the

@@ -4,6 +4,16 @@ WORDLE RUSH
 
 <img width="1642" height="690" alt="image" src="https://github.com/user-attachments/assets/a8995e48-a29a-459a-b0c6-9592c2e4de45" />
 
+## Getting started
+
+```bash
+opam install . --deps-only --with-test
+dune build
+make wordle
+```
+
+Run the test suite with `make test`. See [INSTALL.md](INSTALL.md) for details.
+
 *Introduction*
 
 WordleRush is a terminal-based version of the popular Wordle game, enhanced with a multitude interactive features and game modes. In this project, we aimed at transoforming the traditional Wordle experience into a more dynamic and engaging activity, suitable for all types of players from the unexperienced (or maybe unlucky) to the most experienced and those looking for a challenge.

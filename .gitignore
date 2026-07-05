@@ -1,0 +1,14 @@
+# Dune build artifacts
+_build/
+
+# Coverage reports
+_coverage/
+bisect*.coverage
+
+# OCaml / editor
+*.install
+*.merlin
+.DS_Store
+
+# Packaging
+*.zip

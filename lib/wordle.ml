@@ -6,7 +6,6 @@ module WordleGame = struct
     | Classic
     | Four
     | Six
-    | Blank
 
   type difficulty_level =
     | Easy
@@ -22,8 +21,13 @@ module WordleGame = struct
   type pairings = (int * (char * char_color)) list
   type keyb_hash = (char, char_color) Hashtbl.t
 
-  let cat_hash = Hashtbl.create 1
-  let () = Hashtbl.add cat_hash 1 Blank
+  let current_category = ref None
+
+  let get_category () : game_category =
+    match !current_category with
+    | Some category -> category
+    | None -> failwith "game category has not been selected"
+
   let lwt_read_line () = Lwt_io.read_line Lwt_io.stdin
 
   let rec select_category () : unit =
@@ -32,9 +36,9 @@ module WordleGame = struct
       "Choose Wordle:      4) Four-letter      5) Five-letter      6) \
        Six-letter       ";
     match String.trim (String.lowercase_ascii (read_line ())) with
-    | "4" -> Hashtbl.replace cat_hash 1 Four
-    | "5" -> Hashtbl.replace cat_hash 1 Classic
-    | "6" -> Hashtbl.replace cat_hash 1 Six
+    | "4" -> current_category := Some Four
+    | "5" -> current_category := Some Classic
+    | "6" -> current_category := Some Six
     | _ ->
         print_newline ();
         print_string "Not an Option. Select Again.";
@@ -125,12 +129,56 @@ module WordleGame = struct
       close_in chan;
       List.rev !lines
 
-  let word_list (game_c : game_category) : string list =
+  let data_file (basename : string) : string =
+    let from_cwd = Filename.concat "data" basename in
+    if Sys.file_exists from_cwd then from_cwd
+    else
+      let from_exe =
+        Filename.concat
+          (Filename.concat (Filename.dirname Sys.executable_name) "../../data")
+          basename
+      in
+      if Sys.file_exists from_exe then from_exe
+      else
+        failwith
+          ("Dictionary file not found: data/" ^ basename
+          ^ " (run from the project root or use dune exec)")
+
+  let dictionary_basename (game_c : game_category) : string =
     match game_c with
-    | Classic -> read_file "data/sgb-5-letter.txt"
-    | Four -> read_file "data/sgb-4-letter.txt"
-    | Six -> read_file "data/sgb-6-letter.txt"
-    | Blank -> failwith "not a category"
+    | Classic -> "sgb-5-letter.txt"
+    | Four -> "sgb-4-letter.txt"
+    | Six -> "sgb-6-letter.txt"
+
+  let file_of_category (game_c : game_category) : string =
+    data_file (dictionary_basename game_c)
+
+  (* Word lists are read from disk once per category and memoized, so repeated
+     validity checks and random-word selection don't re-open the files. *)
+  let word_list_cache : (game_category, string list) Hashtbl.t =
+    Hashtbl.create 4
+
+  let word_list (game_c : game_category) : string list =
+    match Hashtbl.find_opt word_list_cache game_c with
+    | Some words -> words
+    | None ->
+        let words = read_file (file_of_category game_c) in
+        Hashtbl.add word_list_cache game_c words;
+        words
+
+  (* A set view of each word list for O(1) membership tests. *)
+  let word_set_cache : (game_category, (string, unit) Hashtbl.t) Hashtbl.t =
+    Hashtbl.create 4
+
+  let word_set (game_c : game_category) : (string, unit) Hashtbl.t =
+    match Hashtbl.find_opt word_set_cache game_c with
+    | Some set -> set
+    | None ->
+        let words = word_list game_c in
+        let set = Hashtbl.create (max 16 (List.length words)) in
+        List.iter (fun w -> Hashtbl.replace set w ()) words;
+        Hashtbl.add word_set_cache game_c set;
+        set
 
   let double_newline () : unit =
     print_newline ();
@@ -210,17 +258,14 @@ module WordleGame = struct
 
   let is_valid_word (word : string) (category : game_category) : bool =
     let lower_trim_word = word |> String.lowercase_ascii |> String.trim in
-    match category with
-    | Classic ->
-        String.length lower_trim_word = 5
-        && List.mem lower_trim_word (word_list Classic)
-    | Four ->
-        String.length lower_trim_word = 4
-        && List.mem lower_trim_word (word_list Four)
-    | Six ->
-        String.length lower_trim_word = 6
-        && List.mem lower_trim_word (word_list Six)
-    | Blank -> failwith "Not an option"
+    let expected_length =
+      match category with
+      | Classic -> 5
+      | Four -> 4
+      | Six -> 6
+    in
+    String.length lower_trim_word = expected_length
+    && Hashtbl.mem (word_set category) lower_trim_word
 
   let is_correct_guess (target_word : string) (guessed_word : string) : bool =
     let lower_trim_guess =
@@ -383,11 +428,10 @@ module WordleGame = struct
 
   (* Get indices based on the category *)
   let get_indices_by_category () : int list =
-    match Hashtbl.find cat_hash 1 with
+    match get_category () with
     | Four -> [ 0; 1; 2; 3 ]
     | Classic -> [ 0; 1; 2; 3; 4 ]
     | Six -> [ 0; 1; 2; 3; 4; 5 ]
-    | Blank -> failwith "not a category"
 
   (* Prints each character in for the hint function *)
   let rec output (curr_ind : int) (target_approx : 'a list)
@@ -445,7 +489,6 @@ module WordleGame = struct
     | Six ->
         Printf.printf "\n%s, try to guess the hidden six-letter word.\n"
           !current_player.name
-    | Blank -> failwith "You're not supposed to be here"
 
   let print_invalid game_category =
     match game_category with
@@ -458,7 +501,6 @@ module WordleGame = struct
     | Six ->
         Printf.printf
           "Invalid word. Please enter a six-letter word from the word list.\n"
-    | Blank -> failwith "You're not supposed to be here"
 
   let rec process_guess (target_word : string) (attempts_left : int)
       (guess_lst : string list) : unit Lwt.t =
@@ -491,7 +533,7 @@ module WordleGame = struct
 
   and process_valid_guess (target_word : string) (attempts_left : int)
       (guess_lst : string list) (guess : string) : unit Lwt.t =
-    if is_valid_word guess (Hashtbl.find cat_hash 1) then
+    if is_valid_word guess (get_category ()) then
       let updated_lst = guess_lst @ [ guess ] in
       if is_correct_guess target_word guess then
         Lwt.return (double_newline ()) >>= fun () ->
@@ -519,7 +561,7 @@ module WordleGame = struct
         Lwt.return (double_newline ()) >>= fun () -> restart_game ()
       else wordle_game target_word (attempts_left - 1) updated_lst
     else
-      let category = Hashtbl.find cat_hash 1 in
+      let category = get_category () in
       Lwt.return (print_invalid category) >>= fun () ->
       wordle_game target_word attempts_left guess_lst
 
@@ -579,7 +621,7 @@ module WordleGame = struct
 
   and start_timed_game () : unit Lwt.t =
     select_category ();
-    let category = Hashtbl.find cat_hash 1 in
+    let category = get_category () in
     let target_word = select_random_word category in
     let difficulty_level = select_difficulty () in
     let time = select_time () in
@@ -620,7 +662,7 @@ module WordleGame = struct
 
   and start_untimed_game () : unit Lwt.t =
     select_category ();
-    let category = Hashtbl.find cat_hash 1 in
+    let category = get_category () in
     let target_word = select_random_word category in
     let difficulty_level = select_difficulty () in
     let max_attempts = get_max_attempts difficulty_level in
@@ -636,7 +678,3 @@ module WordleGame = struct
     let game_mode = if !timed then start_timed_game else start_untimed_game in
     Lwt_main.run (game_mode ())
 end
-
-let () =
-  if Array.length Sys.argv > 1 && Sys.argv.(1) = "start" then
-    WordleGame.start_game ()

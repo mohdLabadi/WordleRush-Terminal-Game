@@ -1,4 +1,4 @@
 (library
  (name wordle)
- (public_name final)
+ (public_name wordlerush)
  (libraries ANSITerminal lwt lwt_ssl))

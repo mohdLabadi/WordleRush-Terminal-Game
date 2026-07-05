@@ -1,2 +1,1 @@
-let () = print_endline "Hello, World!"
-
+let () = Wordle.WordleGame.start_game ()

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIB="Final"
+LIB="wordlerush"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS
